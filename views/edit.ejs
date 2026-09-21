@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Note</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <h1>edit here</h1>
+    <form action="/edit-book" method="POST">
+  <label>Book Title</label>
+  <input type="text" name="title" placeholder="Enter book title" value="<%= data.title %>">
+
+  <label>Notes</label>
+<textarea name="notes" placeholder="Enter your notes"><%= data.notes %></textarea>
+
+  <label>Rating</label>
+  <input type="number" name="rating" placeholder="Rate the book"  value="<%= data.rating %>">
+
+  <label>ISBN</label>
+  <input type="text" name="isbn" placeholder="Enter ISBN"  value="<%= data.isbn %>">
+  <label>ID</label>
+   <input type="hidden" name="id" value="<%= data.id %>">
+
+  <button type="submit">edit Book</button>
+</form>
+
+  </body>
+</html>

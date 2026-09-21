@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Note</title>
+
+
+<link rel="stylesheet" href="/style.css">
+
+  </head>
+
+  <body>
+    <h1>Welcome to the Book Note</h1>
+
+<form method="GET" class="sort-form">
+  <select name="sort">
+    <option value="rating">Rating</option>
+    <option value="title">Title</option>
+    <option value="date">Date</option>
+  </select>
+
+  <button type="submit">Sort</button>
+</form>
+
+<% data.forEach(book => { %>
+  <div class="book">
+
+    <h2><%= book.title %></h2>
+
+    <p><%= book.notes %></p>
+
+    <p>Rating: <%= book.rating %></p>
+
+    <p>ISBN: <%= book.isbn %></p>
+
+    <p>Date Added: <%= book.add_date %></p>
+
+    <p>ID: <%= book.id %></p>
+
+  <img
+  class="book-cover"
+  src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg"
+>
+
+ <a class="book-button" href="/edit/<%= book.id %>">Edit</a>
+<a class="book-button" href="/delete/<%= book.id %>">Delete</a>
+
+  </div>
+<% }); %>
+
+<form action="/add-book" method="POST" class="add-form">
+
+  <label>Book Title</label>
+  <input type="text" name="title" placeholder="Enter book title">
+
+  <label>Notes</label>
+  <textarea name="notes" placeholder="Enter your notes"></textarea>
+
+  <label>Rating</label>
+  <input type="number" name="rating" placeholder="Rate the book">
+
+  <label>ISBN</label>
+  <input type="text" name="isbn" placeholder="Enter ISBN">
+
+  <button type="submit">Add Book</button>
+
+</form>
+
+
+  </body>
+</html>
