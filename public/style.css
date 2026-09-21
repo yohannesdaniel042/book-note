@@ -90,6 +90,19 @@ h1 {
   border-radius: 6px;
   font-size: 15px;
 }
-body {
-  background-color: red;
+@media (max-width: 600px) {
+  h1 {
+    font-size: 30px;
+  }
+
+  .book,
+  .add-form,
+  .edit-form {
+    width: 90%;
+  }
+}
+@media (max-width: 600px) {
+  .book-cover {
+    width: 140px;
+  }
 }
