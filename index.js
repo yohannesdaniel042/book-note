@@ -1,5 +1,6 @@
 
 import express from "express";
+import "dotenv/config";
 import bodyParser from "body-parser";
 import pg from "pg";
 import axios from "axios";
@@ -7,39 +8,34 @@ import session from "express-session";
 import bcrypt from "bcrypt";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use(
   session({
-    secret: "book-note-secret",
+   secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
 );
 
-// PostgreSQL
 const db = new pg.Client({
   user: "postgres",
   host: "localhost",
   database: "Books",
-  password: "***********",
+  password: process.env.DB_PASSWORD,
   port: 5432,
 });
 
-db.connect();
-
-// =========================
-// HOME
-// =========================
+db.connect()
+  .then(() => console.log("DATABASE CONNECTED"))
+  .catch((err) => console.log("DATABASE ERROR:", err.message));
 
 app.get("/", async (req, res) => {
 
-  // If the user is NOT logged in,
-  // show only the welcome page.
+  
   if (!req.session.userId) {
     return res.render("index.ejs", {
       data: [],
@@ -96,25 +92,19 @@ app.get("/", async (req, res) => {
   });
 });
 
-// =========================
-// REGISTER PAGE
-// =========================
 
 app.get("/register", (req, res) => {
   res.render("register.ejs");
 });
 
-// =========================
-// LOGIN PAGE
-// =========================
+
+
 
 app.get("/login", (req, res) => {
   res.render("login.ejs");
 });
 
-// =========================
-// REGISTER
-// =========================
+
 
 app.post("/register", async (req, res) => {
   const name = req.body.name;
@@ -131,9 +121,7 @@ app.post("/register", async (req, res) => {
   res.redirect("/login");
 });
 
-// =========================
-// LOGIN
-// =========================
+
 
 app.post("/login", async (req, res) => {
   const email = req.body.email;
@@ -164,9 +152,7 @@ app.post("/login", async (req, res) => {
   res.redirect("/");
 });
 
-// =========================
-// EDIT PAGE
-// =========================
+
 
 app.get("/edit/:id", async (req, res) => {
 
@@ -188,9 +174,7 @@ app.get("/edit/:id", async (req, res) => {
   });
 });
 
-// =========================
-// DELETE BOOK
-// =========================
+
 
 app.get("/delete/:id", async (req, res) => {
 
@@ -206,7 +190,7 @@ app.get("/delete/:id", async (req, res) => {
   res.redirect("/");
 });
 
-// =========================
+
 // ADD BOOK
 // =========================
 
@@ -232,7 +216,7 @@ app.post("/add-book", async (req, res) => {
   res.redirect("/");
 });
 
-// =========================
+
 // EDIT BOOK
 // =========================
 
@@ -263,9 +247,7 @@ app.post("/edit-book", async (req, res) => {
   res.redirect("/");
 });
 
-// =========================
-// LOGOUT
-// =========================
+
 
 app.get("/logout", (req, res) => {
 
@@ -279,9 +261,7 @@ app.get("/logout", (req, res) => {
   });
 });
 
-// =========================
-// START SERVER
-// =========================
+
 
 app.listen(port, () => {
   console.log(`great you have successfully connected to port ${port}`);

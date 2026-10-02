@@ -105,3 +105,27 @@ h1 {
   .book-cover {
     width: 140px;
   }}
+  .container {
+  width: 400px;
+  max-width: 90%;
+  margin: 80px auto;
+  padding: 35px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.container input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.login-container{
+  width: 400px;
+  max-width: 90%;
+  margin: 80px auto;
+  padding: 35px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
