@@ -21,6 +21,9 @@ I hope my website can help solve this problem. Thanks for checking out my projec
 - Delete a book
 - Sort books by rating, title, or date
 - Store all books in PostgreSQL
+- User registration and login
+- Password hashing with bcrypt
+- Session-based authentication
 
 ## Technologies Used
 
@@ -30,6 +33,7 @@ I hope my website can help solve this problem. Thanks for checking out my projec
 - pg (node-postgres)
 - EJS
 - Axios
+- bcrypt
 - Open Library Covers API
 - HTML
 - CSS
