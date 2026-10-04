@@ -15,17 +15,18 @@ app.use(express.static("public"));
 
 app.use(
   session({
-   secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
 );
 
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === "production"
-    ? { rejectUnauthorized: false }
-    : false,
+  user: "postgres",
+  host: "localhost",
+  database: "Books",
+  password: process.env.DB_PASSWORD,
+  port: 5432,
 });
 
 db.connect()
@@ -33,8 +34,6 @@ db.connect()
   .catch((err) => console.log("DATABASE ERROR:", err.message));
 
 app.get("/", async (req, res) => {
-
-  
   if (!req.session.userId) {
     return res.render("index.ejs", {
       data: [],
@@ -91,19 +90,13 @@ app.get("/", async (req, res) => {
   });
 });
 
-
 app.get("/register", (req, res) => {
   res.render("register.ejs");
 });
 
-
-
-
 app.get("/login", (req, res) => {
   res.render("login.ejs");
 });
-
-
 
 app.post("/register", async (req, res) => {
   const name = req.body.name;
@@ -119,8 +112,6 @@ app.post("/register", async (req, res) => {
 
   res.redirect("/login");
 });
-
-
 
 app.post("/login", async (req, res) => {
   const email = req.body.email;
@@ -151,10 +142,7 @@ app.post("/login", async (req, res) => {
   res.redirect("/");
 });
 
-
-
 app.get("/edit/:id", async (req, res) => {
-
   if (!req.session.userId) {
     return res.redirect("/login");
   }
@@ -173,10 +161,7 @@ app.get("/edit/:id", async (req, res) => {
   });
 });
 
-
-
 app.get("/delete/:id", async (req, res) => {
-
   if (!req.session.userId) {
     return res.redirect("/login");
   }
@@ -189,12 +174,7 @@ app.get("/delete/:id", async (req, res) => {
   res.redirect("/");
 });
 
-
-// ADD BOOK
-// =========================
-
 app.post("/add-book", async (req, res) => {
-
   if (!req.session.userId) {
     return res.redirect("/login");
   }
@@ -215,12 +195,7 @@ app.post("/add-book", async (req, res) => {
   res.redirect("/");
 });
 
-
-// EDIT BOOK
-// =========================
-
 app.post("/edit-book", async (req, res) => {
-
   if (!req.session.userId) {
     return res.redirect("/login");
   }
@@ -246,21 +221,16 @@ app.post("/edit-book", async (req, res) => {
   res.redirect("/");
 });
 
-
-
 app.get("/logout", (req, res) => {
-
   req.session.destroy((err) => {
-
     if (err) {
+      console.log("Logout error:", err);
       return res.send("Could not log out");
     }
 
     res.redirect("/");
   });
 });
-
-
 
 app.listen(port, () => {
   console.log(`great you have successfully connected to port ${port}`);
